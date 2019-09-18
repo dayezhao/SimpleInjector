@@ -306,7 +306,7 @@ namespace SimpleInjector
 
                 Type serviceType = e.UnregisteredServiceType;
 
-                ServiceDescriptor descriptor = FindServiceDescriptor(services, serviceType);
+                ServiceDescriptor? descriptor = FindServiceDescriptor(services, serviceType);
 
                 if (descriptor != null)
                 {
@@ -375,11 +375,11 @@ namespace SimpleInjector
             return () => accessor.Current.GetRequiredService(serviceType);
         }
 
-        private static ServiceDescriptor FindServiceDescriptor(IServiceCollection services, Type serviceType)
+        private static ServiceDescriptor? FindServiceDescriptor(IServiceCollection services, Type serviceType)
         {
             // In case there are multiple descriptors for a given type, .NET Core will use the last
             // descriptor when one instance is resolved. We will have to get this last one as well.
-            ServiceDescriptor descriptor = services.LastOrDefault(d => d.ServiceType == serviceType);
+            ServiceDescriptor? descriptor = services.LastOrDefault(d => d.ServiceType == serviceType);
 
             if (descriptor == null && serviceType.GetTypeInfo().IsGenericType)
             {
